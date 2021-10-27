@@ -1,0 +1,124 @@
+{% extends "AutoPointe/base.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% if messages %}
+{% for message in messages %}
+{% if 'warning' in message.tags %}
+	<div class="alert alert-danger" role="alert">
+		{{message}}
+	</div>
+{% else %}
+	<div class="alert alert-success" role="alert">
+		{{message}}
+	</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+<!--Edit user modal-->
+<div class="modal fade" tabindex="-1" id="profileModal" role="dialog">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title">Modifier le profil</h5>
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			  </button>
+		  </div>
+		  <div class="modal-body">
+			  <form method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					{{ user_form|crispy }}
+					{{ profile_form|crispy }}
+		  </div>
+			<div class="modal-footer">
+				  <button type="submit" class="btn btn-primary">Enregistrer</button>
+			  </form> 
+			  <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+		  </div>
+	  </div>
+	</div>
+</div>
+
+<!--Change password modal-->
+<div class="modal fade" tabindex="-1" id="passwordModal" role="dialog">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title">Changement du mot de passe</h5>
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			  </button>
+		  </div>
+		  <div class="modal-body">
+			  <form method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div class="form-group">
+						<label for="exampleInputPassword1">L'ancien mot de passe</label>
+						<input type="password" name="q_Old_Password" class="form-control" id="exampleInputPassword1" placeholder="Le mot de passe actuellement">
+					</div>
+				
+				
+					<div class="form-group">
+						<label for="NewPassword">Nouveau mot de passe</label>
+						<input type="password" name="q_new_Password" class="form-control" id="NewPassword" placeholder="Le nouvau mot de passe">
+					</div>
+				
+				
+					<div class="form-group">
+						<label for="ConfirmNewPassword">Confirmer le nouvau mot de passe</label>
+						<input type="password" name="q_confirm_new_Password" class="form-control" id="ConfirmNewPassword" placeholder="Le nouvau mot de passe">
+					</div>
+		  </div>
+			<div class="modal-footer">
+				  <button type="submit" class="btn btn-primary">Enregistrer</button>
+			  </form> 
+			  <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+		  </div>
+	  </div>
+	</div>
+</div>
+<div class="container-fluid">
+<div class="row">
+		<div class="col-md">
+		<div class="card border-left-primary shadow h-100 py">
+			<div class="card card-body">
+				<h5 style="text-align: center;">Actions</h5>
+				<hr>
+				<a class="btn btn-outline-primary  btn-sm btn-block" data-toggle="modal" data-target="#profileModal">Modifier mon profil</a>
+				<a class="btn btn-outline-danger  btn-sm btn-block" data-toggle="modal" data-target="#passwordModal">Modifier le mot de passe</a>
+	
+			</div>
+		</div>
+	</div>
+</div>
+<!--h4 class="m-0 font-weight-bold text-dark center">Vos commandes</h4-->
+
+<div class="card-body">
+	<h4 class="h4 mb-2 text-gray-800" style="text-align: center;">Les fichiers que vous avez chargés</h4>
+
+            <div class="table-responsive">
+                <table class="display nowrap" id="dataTable" width="100%" cellspacing="0">
+				 <thead>
+                 <tr>
+					<th>Date début des transactions</th>
+					<th>Date fin des transactions</th>
+					<th>Fichier</th>
+					<th>Date de dernière modification</th>
+				</tr>
+                </thead>
+				{% for file in files %}
+
+				<tr>
+					<td>{{file.start_date}}</td>
+					<td>{{file.end_date}}</td>
+					<td><a href="{% url 'download_file' file.id_file %}">{{file.file}}</a></td>
+					<td>{{file.date_created}}</td>
+				</tr>
+				{% endfor %}
+
+			</table>
+
+	</div>
+</div>
+</div>
+{% endblock %}
