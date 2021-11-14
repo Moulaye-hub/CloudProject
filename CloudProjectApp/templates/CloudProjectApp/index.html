@@ -1,4 +1,4 @@
-{% extends "AutoPointe/base.html" %}
+{% extends "CloudProjectApp/base.html" %}
 {% block content %}
 {% load static %}
 
@@ -13,8 +13,8 @@
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
                     <div class="row">
-                        <div class="col-lg-5 d-none d-lg-block"><img src="{% static 'img/index.jpeg' %}" class="salma"></div>
-                            <div class="col-lg-7">
+                        <div class="col-lg-12 d-none d-lg-block" style="text-align: center;"><img src="{% static 'img/index.png' %}" width="200" height="200"></div>
+                            <div class="col-lg-12">
                                 <div class="p-5">
                                     {% if messages %}
                                     {% for message in messages %}
@@ -30,50 +30,33 @@
                                     {% endfor %}
                                     {% endif %}
                                     <div class="text-center">
-                                        <h1 class="h3 text-gray-900 mb-2">BNM-AutoPointe</h1>
-                                        <p class="mb-4">Automatisation du pointage des transactions
+                                        <h1 class="h3 text-gray-900 mb-2">CloudComputingProject</h1>
+                                        <p class="mb-4">We make data science easier!
                                     </div>
-                                    <form action="{% url 'home' %}" method="post" enctype="multipart/form-data" class="user">
-                                        {% csrf_token %}
-                                        <div class="form-group row">
-                                            <div class="col-sm-6">
-                                            <label>Date du debit</label>
-                                            <input name="start_date" class="form-control form-control-user"
-                                                type='date'
-                                                placeholder="Date de début des transactions">
+                                    <div class="col-lg-12">
+                                        <div class="p-6" style="text-align: center;">
+                                        <form action="{% url 'home' %}" method="post" enctype="multipart/form-data" class="user">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label>File</label>
+                                                <div class="text-center">
+                                                <input name="file"
+                                                    type='file' id="file">
+                                                </div>
                                             </div>
-                                            <div class="col-sm-6">
-                                            <label>Date du fin</label>
-                                            <input name='end_date' class="form-control form-control-user"
-                                                type='date'
-                                                placeholder="Date du fin des transactions">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Fichier du T24</label>
-                                            <div class="text-center">
-                                            <input name="fileT24"
-                                                type='file' id="fileT24">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Fichier Magix</label>
-                                            <div class="text-center">
-                                            <input name="fileMgx"
-                                                type='file' id="fileMgx">
-                                            </div>
-                                        </div>
-                                        <button class="btn btn-primary btn-user btn-block">
-                                            Soumettre
-                                        </button>
-                                    </form>
+                                            <button class="btn btn-primary btn-user btn-block">
+                                                Submit
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
-                                
+                                </div>
                             </div>
+                            
     </div>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary" style="text-align: center;">Transactions à vérifier</h6>
+            <h6 class="m-0 font-weight-bold text-primary" style="text-align: center;">Files</h6>
         </div>
         
         <div class="card-body">
@@ -81,28 +64,15 @@
                 <table class="display nowrap" id="dataTable", width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>FT</th>
-                            <th>Gab</th>
-                            <th>Montant</th>
-                            <th>N° compte client</th>
-                            <th>N° carte</th>
-                            <th>Annuler</th>
+                            <th>File initial</th>
+                            <th>File cleaned</th>
                         </tr>
                     </thead>
-                    <!--<tfoot>
-                        <tr>
-                           
-                        </tr>
-                    </tfoot>-->
                     <tbody>
-                    {% for ft_transaction in ft_transactions %}
+                    {% for file in files %}
                         <tr>
-                            <td>{{ft_transaction.transaction}}</td>
-                            <td>{{ft_transaction.transaction.atm.gab_lib}}</td>
-                            <td>{{ft_transaction.transaction.amount_req}}</td>
-                            <td>{{ft_transaction.transaction.client.account_num}}</td>
-                            <td>{{ft_transaction.transaction.client.card_num}}</td>
-                            <td><a class="btn btn-danger btn-circle btn-sm" href="{% url 'annuler' ft_transaction.transaction %}"><i class="fas fa-window-close"></i></a></td>
+                            <td><a href="{% url 'download_file' file.file.id_file %}">{{file.file}}</a></td>
+                            <td><a href="{% url 'download_file_cleared' file.file.id_file %}">{{file.file_cleared}}</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>

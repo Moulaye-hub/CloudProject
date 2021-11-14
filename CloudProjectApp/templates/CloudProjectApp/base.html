@@ -8,10 +8,11 @@
         <meta name="description" content="">
         <meta name="author" content="">
     
-        <title>BNM-AutoPointe</title>
+        <title>CloudComputingProject</title>
 
 	    {% load static %}
-        <link href="{% static 'img/index.jpeg' %}" rel="shortcut icon"/>
+        <link href="{% static 'img/index.png' %}" rel="shortcut icon"/>
+        <link href="" rel="shortcut icon"/>
         <!-- Custom fonts for this template-->
         <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
         <link href="{% static 'css/buttons.dataTables.min.css' %}" rel="stylesheet">
@@ -37,8 +38,8 @@
                 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'home' %}">
                     <div class="sidebar-brand-icon rotate-n-15">
                     </div>
-                    <i class="fa fa-money-check-alt"></i>
-                    <div class="sidebar-brand-text mx-3">BNM-AutoPointe</div>
+                    <i class="fa fa-database"></i>
+                    <div class="sidebar-brand-text mx-3"></div>
                 </a>
     
                 <!-- Divider -->
@@ -71,9 +72,9 @@
                         <ul class="navbar-nav ml-auto">
     
     
-                            <div class="topbar-divider d-none d-sm-block"></div>
+                            <!-- div class="topbar-divider d-none d-sm-block"></div>
     
-                            <!-- Nav Item - User Information -->
+                            < Nav Item - User Information ->
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -87,10 +88,10 @@
                                     {% endif %}
                                         
                                 </a>
-                                <!-- Dropdown - User Information -->
+                                < Dropdown - User Information ->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                     aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="{% url 'account' %}">
+                                    <a class="dropdown-item" href="">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Profile
                                     </a>
@@ -100,7 +101,7 @@
                                         Se deconnecter
                                     </a>
                                 </div>
-                            </li>
+                            </li -->
     
                         </ul>
     
@@ -111,7 +112,7 @@
                     <footer class="sticky-footer bg-white">
                         <div class="container my-auto">
                             <div class="copyright text-center my-auto">
-                                <span>Copyright &copy; BNM <script>document.write(new Date().getFullYear())</script></span>
+                                <span>Copyright &copy; 5A_SIC_ID-INSA_EM <script>document.write(new Date().getFullYear())</script></span>
                             </div>
                         </div>
                     </footer>
@@ -127,26 +128,7 @@
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
-                    
-        <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Prêt à partir?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Sélectionnez « Déconnexion » ci-dessous si vous êtes prêt à mettre fin à votre session en cours.</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
-                <a class="btn btn-danger" href="{% url 'logout' %}">Déconnexion</a>
-            </div>
-        </div>
-    </div>
-</div>
+        
         </div>
                     
         <!-- Bootstrap core JavaScript-->
@@ -178,17 +160,6 @@
         <script src="{% static 'vendor/datatables/buttons.colVis.min.js' %}"></script>
         <script src="{% static 'vendor/datatables/dataTables.responsive.min.js' %}"></script>
         <script src="{% static 'vendor/datatables/responsive.bootstrap4.min.js' %}"></script>
-        <script>
-            $(document).ready(function() {
-                $('#dataTable').DataTable( {
-                    dom: 'Bfrtip',
-                    buttons: [
-                        'copy', 'csv', 'pdf', 'print'
-                    ]
-                } );
-            } );
-             </script>
-                    
         <!-- Page level custom scripts -->
         <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
                     
