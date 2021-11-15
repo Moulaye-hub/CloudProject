@@ -12,7 +12,8 @@ class FileInitial(models.Model):
         return str(self.file.name)
 
 class FileProcessed(models.Model):
-    file = OneToOneField(FileInitial, primary_key=True, on_delete=models.CASCADE)
+    id_file_cleared = models.AutoField(primary_key=True)
+    file = models.ForeignKey(FileInitial, on_delete=models.CASCADE)
     file_cleared = models.FileField(upload_to='Cloud_Project/')
     
     def __str__(self):

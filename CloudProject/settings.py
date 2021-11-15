@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'CloudProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'projetc_cloud',
+        'NAME': 'projet_cloud',
         'USER': 'admin',
         'PASSWORD': 'password',
         'HOST': '127.0.0.1',

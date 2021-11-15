@@ -72,7 +72,7 @@
                     {% for file in files %}
                         <tr>
                             <td><a href="{% url 'download_file' file.file.id_file %}">{{file.file}}</a></td>
-                            <td><a href="{% url 'download_file_cleared' file.file.id_file %}">{{file.file_cleared}}</a></td>
+                            <td><a href="{% url 'download_file_cleared' file.id_file_cleared %}">{{file.file_cleared}}</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>

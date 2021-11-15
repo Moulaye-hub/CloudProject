@@ -10,6 +10,6 @@ urlpatterns = [
     path('', views.home, name='home'),
 
     path('files/<str:pk>/', views.download_file, name='download_file'),
-    path('files/<str:pk>/', views.download_file_cleared, name='download_file_cleared'),
+    path('files_processed/<str:pk>/', views.download_file_cleared, name='download_file_cleared'),
 
 ]

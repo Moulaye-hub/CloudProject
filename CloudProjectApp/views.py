@@ -13,8 +13,7 @@ import os
 import sys
 import csv
 from pathlib import Path
-from django.core.files.storage import FileSystemStorage
-from django.core.files.base import File
+from django.core.files.base import ContentFile
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,11 +38,10 @@ def home(request):
             pass
         else:
             file = request.FILES['file']
-            print(type(file))
             name = os.path.splitext(file.name)[0]
             data = pd.read_csv(file)
-            file = FileInitial.objects.create(file=file)
-            file.save()
+            fileInitial = FileInitial.objects.create(file=file)
+            fileInitial.save()
             columns = list(data.columns.values)
             for column in columns:
                 strs = list(filter(lambda x : type(x) ==str, data[column].unique().tolist()))
@@ -71,19 +69,13 @@ def home(request):
             for column in columns:
                 data[column] = data[column].fillna((data[column].mean()))
             
-            file_cleared = data.to_csv(name+'_processed.csv')
-            #file_cleared = File(file_cleared, name+'_processed.csv')
-            #file_io = io.StringIO()
-            '''writer = csv.writer(file_io, dialect='csv', delimiter=',')
-            writer.writerow(line_as_list)
-            content = writer_file.getvalue()'''
-            file_processed=open(name+'_processed.csv', 'r')
-            print(type(file_processed))
-            '''fileProcessed = FileProcessed.objects.create(file=file, file_cleared=file_processed)
-            fileProcessed.save()'''
+            file_processed = ContentFile(data.to_csv())
+            file_processed.name = name+'_processed.csv'
+            fileProcessed = FileProcessed.objects.create(file=fileInitial, file_cleared=file_processed)
+            fileProcessed.save()
             
 
-        files = FileProcessed.objects.filter(file=file)
+        files = FileProcessed.objects.filter(file=fileInitial)
         context = {'files':files}
         return render(request, 'CloudProjectApp/index.html', context)
 
@@ -98,8 +90,7 @@ def download_file(request, pk):
     return response
 
 def download_file_cleared(request, pk):
-    file = get_object_or_404(FileInitial, id_file=pk)
-    file_processed = get_object_or_404(FileProcessed, file=file)
+    file_processed = get_object_or_404(FileProcessed, id_file_cleared=pk)
     file_location = os.path.join(BASE_DIR, 'media/'+file_processed.file_cleared.name)
     with open(file_location, 'r') as f:
         file_data = f.read()
