@@ -10,10 +10,16 @@ from rest_framework.decorators import api_view
 import pandas as pd
 import numpy as np
 import os
-import sys
-import csv
 from pathlib import Path
 from django.core.files.base import ContentFile
+import logging
+import cloudstorage as gcs
+from google.cloud import storage
+from django.conf import settings
+from urllib.request import urlopen
+#import webapp2
+
+#from google.appengine.api import app_identity
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -69,7 +75,7 @@ def home(request):
             for column in columns:
                 data[column] = data[column].fillna((data[column].mean()))
             
-            file_processed = ContentFile(data.to_csv())
+            file_processed = ContentFile(data.to_csv().encode('utf-8'))
             file_processed.name = name+'_processed.csv'
             fileProcessed = FileProcessed.objects.create(file=fileInitial, file_cleared=file_processed)
             fileProcessed.save()
@@ -82,18 +88,19 @@ def home(request):
 
 def download_file(request, pk):
     file = get_object_or_404(FileInitial, id_file=pk)
-    file_location = os.path.join(BASE_DIR, 'media/'+file.file.name)
-    with open(file_location, 'r') as f:
-        file_data = f.read()
+    #file_location = os.environ.path.join('strategic-crow-329607_gc-bucket/', file.file.name)
+    f = urlopen(settings.GCS_ROOT+file.file.name)
+    file_data = f.read()
     response = HttpResponse(file_data, content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="{}"'.format(file)
     return response
 
 def download_file_cleared(request, pk):
     file_processed = get_object_or_404(FileProcessed, id_file_cleared=pk)
-    file_location = os.path.join(BASE_DIR, 'media/'+file_processed.file_cleared.name)
-    with open(file_location, 'r') as f:
-        file_data = f.read()
+    #file_location = os.environ.path.join('strategic-crow-329607_gc-bucket/', file_processed.file_cleared.name)
+    #with open(settings.GCS_ROOT+file_processed.file_cleared.name) as f:
+    f = urlopen(settings.GCS_ROOT+file_processed.file_cleared.name)
+    file_data = f.read()
     response = HttpResponse(file_data, content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="{}"'.format(file_processed)
     return response
